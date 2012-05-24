@@ -2,7 +2,7 @@
 // You can redistribute it and/or modify it under the new BSD license.
 
 #import "OnigRegexp.h"
-
+#import "NSObject+ARCCompat.h"
 
 #define CHAR_SIZE 2
 
@@ -38,7 +38,9 @@
 {
     if (_entity) onig_free(_entity);
     [_expression release];
+#if !__has_feature(objc_arc)
     [super dealloc];
+#endif
 }
 
 - (void)finalize
@@ -244,7 +246,9 @@
     [_expression release];
     if (_region) onig_region_free(_region, 1);
     [_target release];
+#if !__has_feature(objc_arc)
     [super dealloc];
+#endif
 }
 
 - (void)finalize
@@ -324,7 +328,7 @@
 
 // Used to get list of names
 int co_name_callback(const OnigUChar* name, const OnigUChar* end, int ngroups, int* group_list, OnigRegex re, void* arg) {
-    OnigResult *result = (OnigResult *)arg;
+    OnigResult *result = (__bridge OnigResult *)arg;
     
     [[result captureNameArray] addObject:[NSString stringWithCharacters:(unichar*)name length:((end-name)/CHAR_SIZE)]];
     return 0;
@@ -332,7 +336,7 @@ int co_name_callback(const OnigUChar* name, const OnigUChar* end, int ngroups, i
 
 - (NSArray*)captureNames
 {
-    onig_foreach_name([self->_expression entity], co_name_callback, self);
+    onig_foreach_name([self->_expression entity], co_name_callback, (__bridge void *)self);
     return [NSArray arrayWithArray:self->_captureNames];
 }
 
