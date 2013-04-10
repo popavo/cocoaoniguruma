@@ -2,7 +2,6 @@
 // You can redistribute it and/or modify it under the new BSD license.
 
 #import "OnigRegexp.h"
-#import "NSObject+ARCCompat.h"
 
 #define CHAR_SIZE 2
 
@@ -22,11 +21,7 @@
 
 static int captureNameCallback(const OnigUChar* name, const OnigUChar* end, int ngroups, int* group_list, OnigRegex re, void* arg) {
     OnigResult *result = nil;
-#if __has_feature(objc_arc)
     result = (__bridge OnigResult *)arg;
-#else
-    result = (OnigResult *)arg;
-#endif
     [[result captureNameArray] addObject:[NSString stringWithCharacters:(unichar*)name length:((end-name)/CHAR_SIZE)]];
     return 0;
 }
@@ -47,10 +42,6 @@ static int captureNameCallback(const OnigUChar* name, const OnigUChar* end, int 
 - (void)dealloc
 {
     if (_entity) onig_free(_entity);
-#if !__has_feature(objc_arc)
-    [_expression release];
-    [super dealloc];
-#endif
 }
 
 + (OnigRegexp*)compile:(NSString*)expression
@@ -133,9 +124,6 @@ static int captureNameCallback(const OnigUChar* name, const OnigUChar* end, int 
     
     if (status == ONIG_NORMAL) {
         OnigRegexp* regexp = [[self alloc] initWithEntity:entity expression:expression];
-#if !__has_feature(objc_arc)
-        [regexp autorelease];
-#endif
         return regexp;
     }
     else {
@@ -182,9 +170,6 @@ static int captureNameCallback(const OnigUChar* name, const OnigUChar* end, int 
     
     if (status != ONIG_MISMATCH) {
         OnigResult* result = [[OnigResult alloc] initWithRegexp:self region:region target:target];
-#if !__has_feature(objc_arc)
-        [result autorelease];
-#endif
         return result;
     }
     else {
@@ -219,9 +204,6 @@ static int captureNameCallback(const OnigUChar* name, const OnigUChar* end, int 
     
     if (status != ONIG_MISMATCH) {
         OnigResult* result = [[OnigResult alloc] initWithRegexp:self region:region target:target];
-#if !__has_feature(objc_arc)
-        [result autorelease];
-#endif
         return result;
     }
     else {
@@ -268,12 +250,6 @@ static int captureNameCallback(const OnigUChar* name, const OnigUChar* end, int 
 - (void)dealloc
 {
     if (_region) onig_region_free(_region, 1);
-#if !__has_feature(objc_arc)
-    [_expression release];
-    [_target release];
-#if !__has_feature(objc_arc)
-    [super dealloc];
-#endif
 }
 
 - (OnigRegexp*)_expression
@@ -354,11 +330,7 @@ static int captureNameCallback(const OnigUChar* name, const OnigUChar* end, int 
 - (NSArray*)captureNames
 {
     void* voidSelf = NULL;
-#if __has_feature(objc_arc)
     voidSelf = (__bridge void*)self;
-#else
-    voidSelf = (void*)self;
-#endif
     onig_foreach_name([[self _expression] entity], captureNameCallback, voidSelf);
     return [NSArray arrayWithArray:self->_captureNames];
 }

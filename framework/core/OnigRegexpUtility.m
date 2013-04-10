@@ -3,28 +3,19 @@
 
 #import "OnigRegexpUtility.h"
 #import <objc/message.h>
-#import "NSObject+ARCCompat.h"
 
 typedef NSString* (*OnigReplaceCallback)(OnigResult*, void*, SEL);
 
 static NSString* stringReplaceCallback(OnigResult* res, void* str, SEL sel)
 {
 
-#if __has_feature(objc_arc)
     return (__bridge NSString*)str;
-#else
-    return (NSString*)str;
-#endif
 }
 
 static NSString* blockReplaceCallback(OnigResult* res, void* str, SEL sel)
 {
     NSString* (^block)(OnigResult*) = nil;
-#if __has_feature(objc_arc)
     block = (__bridge NSString* (^)(OnigResult*))str;
-#else
-    block = (NSString* (^)(OnigResult*))str;
-#endif
     return block(res);
 } 
 
@@ -101,9 +92,6 @@ static NSString* blockReplaceCallback(OnigResult* res, void* str, SEL sel)
         }
         else if (limit == 1) {
             if ([target length] == 0) return [NSArray array];
-#if !__has_feature(objc_arc)
-            target = [[target copy] autorelease];
-#endif
             return [NSArray arrayWithObject:target];
         }
         i = 1;
@@ -172,17 +160,11 @@ static NSString* blockReplaceCallback(OnigResult* res, void* str, SEL sel)
     OnigResult* res = [pattern search:self];
     if (res) {
         NSMutableString* s = [self mutableCopy];
-#if !__has_feature(objc_arc)
-        [s autorelease];
-#endif
         [s replaceCharactersInRange:[res bodyRange] withString:callback(res, data, sel)];
         return s;
     }
     else {
         NSString* s = [self mutableCopy];
-#if !__has_feature(objc_arc)
-        [s autorelease];
-#endif
         return s;
     }
 }
@@ -210,9 +192,6 @@ static NSString* blockReplaceCallback(OnigResult* res, void* str, SEL sel)
     OnigResult* res = [pattern search:self];
     if (!res) {
         NSString* s = [self mutableCopy];
-#if !__has_feature(objc_arc)
-        [s autorelease];
-#endif
         return s;
     }
     
