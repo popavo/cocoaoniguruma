@@ -1,10 +1,10 @@
+# CocoaOniguruma
 
-* What is CocoaOniguruma
+CocoaOniguruma is an Objective-C binding of Oniguruma regular expression engine. It's simple and tiny compared to the other bindings.
 
-CocoaOniguruma is an Objective-C binding of Oniguruma regular expression engine.
-It's simple and tiny compared to the other bindings.
+It supports iOS 4+ and Mac OS X 10.6+ on both ARC and non ARC environments.
 
-* How to use
+## How to use
 
 CocoaOniguruma is provided as assorted source files primarily.
 Follow the steps to use CocoaOniguruma in your project.
@@ -13,41 +13,45 @@ Follow the steps to use CocoaOniguruma in your project.
 2. Open your project by Xcode.
 3. Add all .h, .c and .m files under "Classes".
 4. Import the header file, so you can use CocoaOniguruma.
-    #import "OnigRegexp.h"
 
-* How to use as a Framework
+<pre><code>#import "OnigRegexp.h"</code></pre>
 
- 1. Open CocoaOniguruma.xcodeproj by Xcode.
- 2. Select "CocoaOniguruma" for Active Target and "Release" for Active Build Configuration.
- 3. Build it.
- 4. Copy "build/Release/CocoaOniguruma.framework" into your project directory.
- 5. Open your project by Xcode.
- 6. Add the framework to your project under "Frameworks".
- 7. Open "Targets" in the project tree.
- 8. Right click on the application target to open context menu and add a "New Copy Files Build Phase".
- 9. Drag "CocoaOniguruma.framework" into the new "Copy Files" phase.
+## How to use as a Framework
+
+1. Open CocoaOniguruma.xcodeproj by Xcode.
+2. Select "CocoaOniguruma" for Active Target and "Release" for Active Build Configuration.
+3. Build it.
+4. Copy "build/Release/CocoaOniguruma.framework" into your project directory.
+5. Open your project by Xcode.
+6. Add the framework to your project under "Frameworks".
+7. Open "Targets" in the project tree.
+8. Right click on the application target to open context menu and add a "New Copy Files Build Phase".
+9. Drag "CocoaOniguruma.framework" into the new "Copy Files" phase.
 10. Import the header file, so you can use CocoaOniguruma.
-    #import "CocoaOniguruma/OnigRegexp.h"
 
-* The Author
+<pre><code>#import "CocoaOniguruma/OnigRegexp.h"</code></pre>
 
-Satoshi Nakagawa <psychs AT limechat DOT net>
-http://limechat.net/psychs/
-#limechat on irc.freenode.net
+## The Author
 
-* Thanks
+* Satoshi Nakagawa
+* http://github.com/psychs
+* http://limechat.net/psychs/
+* #limechat on irc.freenode.net
+
+## Thanks
 
 The specifications and implementations of split and replace functions are based on ruby.
 Thanks to Matz.
 
-* License
+## License
 
 CocoaOniguruma contains a part of Oniguruma 5.9.2 source code currently.
 See also the Oniguruma's COPYING file.
 
+<pre>
 The New BSD License
 
-Copyright (c) 2008-2011  Satoshi Nakagawa  <psychs AT limechat DOT net>
+Copyright (c) 2008-2012  Satoshi Nakagawa  <psychs AT limechat DOT net>
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -70,3 +74,4 @@ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
 LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGE.
+</pre>

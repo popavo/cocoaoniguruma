@@ -52,6 +52,7 @@ typedef enum {
 - (OnigResult*)match:(NSString*)target;
 - (OnigResult*)match:(NSString*)target start:(int)start;
 
+- (NSUInteger)captureCount;
 - (NSString*)expression;
 
 @end
@@ -67,12 +68,12 @@ typedef enum {
 
 - (NSString*)target;
 
-- (int)count;
-- (NSString*)stringAt:(int)index;
+- (NSUInteger)count;
+- (NSString*)stringAt:(NSUInteger)index;
 - (NSArray*)strings;
-- (NSRange)rangeAt:(int)index;
-- (int)locationAt:(int)index;
-- (int)lengthAt:(int)index;
+- (NSRange)rangeAt:(NSUInteger)index;
+- (NSUInteger)locationAt:(NSUInteger)index;
+- (NSUInteger)lengthAt:(NSUInteger)index;
 
 - (NSString*)body;
 - (NSRange)bodyRange;
@@ -82,7 +83,7 @@ typedef enum {
 
 // named capture support
 - (NSArray*)captureNames;
-- (int)indexForName:(NSString*)name;
+- (NSInteger)indexForName:(NSString*)name;
 - (NSIndexSet*)indexesForName:(NSString*)name;
 - (NSString*)stringForName:(NSString*)name;
 - (NSArray*)stringsForName:(NSString*)name;
