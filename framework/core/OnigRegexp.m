@@ -237,9 +237,6 @@ static int captureNameCallback(const OnigUChar* name, const OnigUChar* end, int 
     self = [super init];
     if (self) {
         _expression = expression;
-#if !__has_feature(objc_arc)
-        [_expression retain];
-#endif
         _region = region;
         _target = [target copy];
         _captureNames = [NSMutableArray new];
